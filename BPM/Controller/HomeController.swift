@@ -72,12 +72,14 @@ class HomeController: BaseController {
             let tapController = TapController(side: .left)
             tapController.tempo = tempo
             tapController.delegate = self?.leftDeckView
+            tapController.modalPresentationStyle = .fullScreen
             self?.present(tapController, animated: true)
         }
         rightDeckView.openHandler = { [weak self] (tempo) in
             let tapController = TapController(side: .right)
             tapController.tempo = tempo
             tapController.delegate = self?.rightDeckView
+            tapController.modalPresentationStyle = .fullScreen
             self?.present(tapController, animated: true)
         }
     }

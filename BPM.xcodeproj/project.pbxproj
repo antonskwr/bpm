@@ -34,7 +34,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		7F14170820532FC5001F7876 /* Bpm-iphone.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Bpm-iphone.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		7F14170820532FC5001F7876 /* BPM.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BPM.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7F14170B20532FC5001F7876 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7F14170D20532FC5001F7876 /* HomeController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeController.swift; sourceTree = "<group>"; };
 		7F14171220532FC5001F7876 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -76,7 +76,7 @@
 		7F1416FF20532FC5001F7876 = {
 			isa = PBXGroup;
 			children = (
-				7F14170A20532FC5001F7876 /* Bpm-iphone */,
+				7F14170A20532FC5001F7876 /* BPM */,
 				7F14170920532FC5001F7876 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -84,12 +84,12 @@
 		7F14170920532FC5001F7876 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				7F14170820532FC5001F7876 /* Bpm-iphone.app */,
+				7F14170820532FC5001F7876 /* BPM.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		7F14170A20532FC5001F7876 /* Bpm-iphone */ = {
+		7F14170A20532FC5001F7876 /* BPM */ = {
 			isa = PBXGroup;
 			children = (
 				7F376F9B21F5233500044D08 /* View */,
@@ -102,15 +102,7 @@
 				7F14171420532FC5001F7876 /* LaunchScreen.storyboard */,
 				7F14171720532FC5001F7876 /* Info.plist */,
 			);
-			path = "Bpm-iphone";
-			sourceTree = "<group>";
-		};
-		7F2CE0A12246446800A09924 /* ScreenSize */ = {
-			isa = PBXGroup;
-			children = (
-				7F2CE09F2246441800A09924 /* ScreenService.swift */,
-			);
-			path = ScreenSize;
+			path = BPM;
 			sourceTree = "<group>";
 		};
 		7F376F9B21F5233500044D08 /* View */ = {
@@ -176,7 +168,7 @@
 		7F6F3894205486A7003FB5D0 /* Service */ = {
 			isa = PBXGroup;
 			children = (
-				7F2CE0A12246446800A09924 /* ScreenSize */,
+				7F2CE09F2246441800A09924 /* ScreenService.swift */,
 				7F6F3895205486C0003FB5D0 /* BPMService.swift */,
 				7F4F0DD82056C6A400143495 /* SettingsEnum.swift */,
 				7F2CE09D22463EFB00A09924 /* MatchTempo.swift */,
@@ -188,9 +180,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		7F14170720532FC5001F7876 /* Bpm-iphone */ = {
+		7F14170720532FC5001F7876 /* BPM */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 7F14171A20532FC5001F7876 /* Build configuration list for PBXNativeTarget "Bpm-iphone" */;
+			buildConfigurationList = 7F14171A20532FC5001F7876 /* Build configuration list for PBXNativeTarget "BPM" */;
 			buildPhases = (
 				7F14170420532FC5001F7876 /* Sources */,
 				7F14170520532FC5001F7876 /* Frameworks */,
@@ -200,9 +192,9 @@
 			);
 			dependencies = (
 			);
-			name = "Bpm-iphone";
+			name = BPM;
 			productName = "Bpm-iphone";
-			productReference = 7F14170820532FC5001F7876 /* Bpm-iphone.app */;
+			productReference = 7F14170820532FC5001F7876 /* BPM.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -235,7 +227,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				7F14170720532FC5001F7876 /* Bpm-iphone */,
+				7F14170720532FC5001F7876 /* BPM */,
 			);
 		};
 /* End PBXProject section */
@@ -413,12 +405,12 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 84DPPTS9UX;
-				INFOPLIST_FILE = "Bpm-iphone/Info.plist";
+				INFOPLIST_FILE = BPM/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.keeper.vehicle.Bpm-iphone";
+				PRODUCT_BUNDLE_IDENTIFIER = com.keeper.bpm;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -428,12 +420,12 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 84DPPTS9UX;
-				INFOPLIST_FILE = "Bpm-iphone/Info.plist";
+				INFOPLIST_FILE = BPM/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.keeper.vehicle.Bpm-iphone";
+				PRODUCT_BUNDLE_IDENTIFIER = com.keeper.bpm;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
@@ -449,7 +441,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		7F14171A20532FC5001F7876 /* Build configuration list for PBXNativeTarget "Bpm-iphone" */ = {
+		7F14171A20532FC5001F7876 /* Build configuration list for PBXNativeTarget "BPM" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				7F14171B20532FC5001F7876 /* Debug */,

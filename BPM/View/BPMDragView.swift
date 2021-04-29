@@ -147,7 +147,7 @@ class BPMDragView: UIView {
     
     fileprivate func adaptToScreenSize() {
         switch ScreenService.shared.getSize() {
-        case .iPhoneSE:
+        case .iPhone4Inch:
             bpmLabel.font = UIFont(name: "AvenirNext-Bold", size: 36)
         default:
             break

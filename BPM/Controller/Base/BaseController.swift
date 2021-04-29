@@ -60,10 +60,10 @@ class BaseVC: UIViewController {
         )
         
         switch ScreenService.shared.getSize() {
-        case .iPhoneSE:
+        case .iPhone4Inch:
             bottomButton.titleLabel?.font = UIFont(name: "AvenirNext-Bold", size: 26)
             bottomButtonConstraints?.height?.constant = 64
-        case .iPhoneXS:
+        case .iPhoneX:
             bottomButtonConstraints?.leading?.constant = 16
             bottomButtonConstraints?.trailing?.constant = -16
             bottomButton.layer.cornerRadius = 16

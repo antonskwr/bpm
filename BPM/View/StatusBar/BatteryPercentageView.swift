@@ -18,7 +18,12 @@ class BatteryPercentageView: UIView {
     
     var level: Int? {
         didSet {
-            batteryPercentageLabel.text = "\(level ?? 50)%"
+            let unwrappedLevel = level ?? 50
+            var text = "N/A"
+            if unwrappedLevel >= 0 {
+                text = "\(unwrappedLevel)%"
+            }
+            batteryPercentageLabel.text = text
         }
     }
     

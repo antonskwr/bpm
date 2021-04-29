@@ -2,8 +2,8 @@
 //  BaseController.swift
 //  Bpm-iphone
 //
-//  Created by Keeper on 27/03/2019.
-//  Copyright © 2019 Keeper. All rights reserved.
+//  Created by Anton Skvartsou on 27/03/2019.
+//  Copyright © 2019 Anton Skvartsou. All rights reserved.
 //
 
 import UIKit

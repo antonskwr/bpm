@@ -2,8 +2,8 @@
 //  AppDelegate.swift
 //  Bpm-iphone
 //
-//  Created by Keeper on 09/03/2018.
-//  Copyright © 2018 Keeper. All rights reserved.
+//  Created by Anton Skvartsou on 09/03/2018.
+//  Copyright © 2018 Anton Skvartsou. All rights reserved.
 //
 
 import UIKit

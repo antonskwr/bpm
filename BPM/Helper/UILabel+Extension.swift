@@ -2,8 +2,8 @@
 //  UILabel+Extension.swift
 //  Bpm-iphone
 //
-//  Created by Keeper on 07/04/2019.
-//  Copyright © 2019 Keeper. All rights reserved.
+//  Created by Anton Skvartsou on 07/04/2019.
+//  Copyright © 2019 Anton Skvartsou. All rights reserved.
 //
 
 import UIKit

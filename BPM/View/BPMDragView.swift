@@ -56,6 +56,7 @@ class BPMDragView: UIView {
     fileprivate let deckView: UIView = {
         let view = UIView()
         view.isUserInteractionEnabled = true
+        view.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
         return view
     }()
     
@@ -157,11 +158,13 @@ class BPMDragView: UIView {
     fileprivate func setupGestureRecognizer() {
         let panGesture = UIPanGestureRecognizer(target: self, action: #selector(handleDeckDrag))
         deckView.addGestureRecognizer(panGesture)
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleDeckTap))
+        deckView.addGestureRecognizer(tapGesture)
     }
     
     @objc func handleDeckDrag(_ gesture: UIPanGestureRecognizer) {
         var translation = gesture.translation(in: nil)
-        var velocity = gesture.velocity(in: nil)
+        let velocity = gesture.velocity(in: nil)
         
         func handleChange() {
             if deckCanBeDragged {
@@ -203,10 +206,36 @@ class BPMDragView: UIView {
         }
     }
     
+    @objc func handleDeckTap(_ gesture: UITapGestureRecognizer) {
+        UIView.animate(withDuration: 0.25, delay: 0.0, options: .curveEaseOut) {
+            let translationY: CGFloat = 20.0
+            self.deckView.transform.ty = translationY
+            self.lock.transform.ty = translationY * 0.35
+            self.hintViewVerticalOffset = translationY
+            self.deckView.layer.cornerRadius = 16.0
+        } completion: { (completed) in
+            if completed {
+                UIView.animate(withDuration: 0.26, delay: 0.0, usingSpringWithDamping: 0.02, initialSpringVelocity: 0.7, options: .curveEaseOut) {
+                    self.deckCanBeDragged = false
+                    self.hintViewVerticalOffset = 0
+                    self.deckView.transform = .identity
+                    self.lock.transform = .identity
+                    self.deckView.layer.cornerRadius = 0.0
+                } completion: { (completed) in
+                    if completed {
+                        self.deckCanBeDragged = true
+                    }
+                }
+            }
+            
+        }
+    }
+    
     fileprivate func moveDeck(translationY: CGFloat) {
         deckView.transform.ty = translationY
         lock.transform.ty = translationY * 0.35
         hintViewVerticalOffset = translationY
+        deckView.layer.cornerRadius = min(translationY, 16.0)
     }
     
     fileprivate func resetPosition() {
@@ -215,6 +244,7 @@ class BPMDragView: UIView {
         UIView.animate(withDuration: 0.4, delay: 0, options: .curveEaseOut, animations: {
             self.deckView.transform = .identity
             self.lock.transform = .identity
+            self.deckView.layer.cornerRadius = 0.0
         })
     }
 }

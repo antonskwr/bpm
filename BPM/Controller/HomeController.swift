@@ -17,7 +17,6 @@ class HomeController: BaseController {
     
     internal let onAirView: OnAirView = {
         let view = OnAirView()
-//        view.backgroundColor = #colorLiteral(red: 0.9333333333, green: 0.9333333333, blue: 0.9333333333, alpha: 1)
         view.deckColor = .appYellow
         return view
     }()
@@ -88,6 +87,8 @@ class HomeController: BaseController {
         bottomButton.setTitle("MATCH", for: .normal)
         bottomButton.backgroundColor = .appDarkGray
         bottomButton.setTitleColor(.appWhite, for: .normal)
+        bottomButton.setTitleColor(.appInactiveWhite, for: .disabled)
+//        bottomButton.isEnabled = false
     }
     
     override func setupCoverView() {

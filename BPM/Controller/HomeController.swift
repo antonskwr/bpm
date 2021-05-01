@@ -88,7 +88,7 @@ class HomeController: BaseController {
         bottomButton.backgroundColor = .appDarkGray
         bottomButton.setTitleColor(.appWhite, for: .normal)
         bottomButton.setTitleColor(.appInactiveWhite, for: .disabled)
-//        bottomButton.isEnabled = false
+        bottomButton.isEnabled = false
     }
     
     override func setupCoverView() {
@@ -168,59 +168,52 @@ class HomeController: BaseController {
         )
     }
     
-    
-    
-    override func handleBottomButtonPressed() {
-        guard let leftTempo = BPMService.sharedInstance.leftDeckBPM else { return }
-        guard let rightTempo = BPMService.sharedInstance.rightDeckBPM else { return }
-        let sideOnAir = BPMService.sharedInstance.sideOnAir
-        let currentPitchRange = BPMService.sharedInstance.currentPitchRange.rawValue
-        
-        switch sideOnAir {
-        case .left:
-            leftHintView.reset()
-            rightHintView.matchTempo(
-                leftTempo: Double(leftTempo),
-                rightTempo: Double(rightTempo),
-                sideOnAir: sideOnAir,
-                pitchRange: currentPitchRange
-            )
-        case .right:
-            rightHintView.reset()
-            leftHintView.matchTempo(
-                leftTempo: Double(leftTempo),
-                rightTempo: Double(rightTempo),
-                sideOnAir: sideOnAir,
-                pitchRange: currentPitchRange
-            )
-        }
+    fileprivate enum ButtonState {
+        case match
+        case done
     }
     
-//    var yConstraint = UIScreen.main.bounds.height / 2 - 30
-//
-//    func animatePitchHelper(label: UILabel) {
-//        label.center.y = yConstraint + 250
-//        label.alpha = 0
-//        UIView.animate(withDuration: 0.8, delay: 0, usingSpringWithDamping: 0.6, initialSpringVelocity: 0.8, options: .curveEaseOut, animations: {
-//            label.center.y = self.yConstraint + 140
-//            label.alpha = 1
-//            self.bottomButton.backgroundColor = .appYellow
-//            self.bottomButton.setTitle("DONE", for: .normal)
-//            self.bottomButton.setTitleColor(.white, for: .normal)
-//        }, completion: nil)
-//    }
-//
-//    func animateOutOfRange(label: UILabel) {
-//        label.center.y = yConstraint + 250
-//        label.alpha = 0
-//        UIView.animate(withDuration: 0.8, delay: 0, usingSpringWithDamping: 0.6, initialSpringVelocity: 0.8, options: .curveEaseOut, animations: {
-//            label.center.y = self.yConstraint + 160
-//            label.alpha = 1
-//            self.bottomButton.backgroundColor = .appDarkGray
-//            self.bottomButton.setTitle("DONE", for: .normal)
-//            self.bottomButton.setTitleColor(.white, for: .normal)
-//        }, completion: nil)
-//    }
+    fileprivate var bottomButtonState: ButtonState = .match
+    
+    override func handleBottomButtonPressed() {
+        switch bottomButtonState {
+        case .match:
+            guard let leftTempo = BPMService.sharedInstance.leftDeckBPM else { return }
+            guard let rightTempo = BPMService.sharedInstance.rightDeckBPM else { return }
+            let sideOnAir = BPMService.sharedInstance.sideOnAir
+            let currentPitchRange = BPMService.sharedInstance.currentPitchRange.rawValue
+            
+            switch sideOnAir {
+            case .left:
+                leftHintView.reset()
+                rightHintView.matchTempo(
+                    leftTempo: Double(leftTempo),
+                    rightTempo: Double(rightTempo),
+                    sideOnAir: sideOnAir,
+                    pitchRange: currentPitchRange
+                )
+            case .right:
+                rightHintView.reset()
+                leftHintView.matchTempo(
+                    leftTempo: Double(leftTempo),
+                    rightTempo: Double(rightTempo),
+                    sideOnAir: sideOnAir,
+                    pitchRange: currentPitchRange
+                )
+            }
+            
+            bottomButton.setTitle("DONE", for: .normal)
+            bottomButton.backgroundColor = #colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1)
+            bottomButtonState = .done
+        case .done:
+            leftHintView.reset()
+            rightHintView.reset()
+            bottomButton.setTitle("MATCH", for: .normal)
+            bottomButton.backgroundColor = .appDarkGray
+            bottomButtonState = .match
+        }
+        
+    }
 }
 
 extension HomeController: BPMDragViewDelegate {
@@ -231,6 +224,23 @@ extension HomeController: BPMDragViewDelegate {
             handleHintViewAnimation(leftHintView, offset: offset)
         case .right:
             handleHintViewAnimation(rightHintView, offset: offset)
+        }
+    }
+    
+    func didUpdateTempo() {
+        leftHintView.reset() // this repeats several times
+        rightHintView.reset()
+        bottomButton.setTitle("MATCH", for: .normal)
+        bottomButton.backgroundColor = .appDarkGray
+        bottomButtonState = .match
+        
+        let leftTempo = BPMService.sharedInstance.leftDeckBPM
+        let rightTempo = BPMService.sharedInstance.rightDeckBPM
+        
+        if leftTempo != nil && rightTempo != nil {
+            bottomButton.isEnabled = true
+        } else {
+            bottomButton.isEnabled = false
         }
     }
     

@@ -124,16 +124,6 @@ class TapController: BaseController {
         dismiss(animated: true)
     }
     
-//    fileprivate func setupWarning(_ isLeft: Bool) {
-//        if BPMService.sharedInstance.isLeftDeckOnAir && !isLeft {
-//            isDisplayingWarning = true
-//            warningLabel.text =  "RESET RIGHT DECK PITCH"
-//        } else if !BPMService.sharedInstance.isLeftDeckOnAir && isLeft {
-//            isDisplayingWarning = true
-//            warningLabel.text =  "RESET LEFT DECK PITCH"
-//        }
-//    }
-    
     fileprivate func setupWarning(for deckSide: Side) {
         switch BPMService.sharedInstance.sideOnAir {
         case .left:

@@ -11,8 +11,8 @@ import Foundation
 class BPMService {
     static let sharedInstance = BPMService()
     
-    var leftDeckBPM: Int? = 136
-    var rightDeckBPM: Int? = 70
+    var leftDeckBPM: Int? = nil
+    var rightDeckBPM: Int? = nil
     
     var currentPitchRange = PitchRange.eight
     var sideOnAir: Side = .left

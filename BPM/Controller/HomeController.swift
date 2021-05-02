@@ -25,6 +25,7 @@ class HomeController: BaseController {
     fileprivate var settingsController: SettingsController?
     fileprivate var settingsControllerView: UIView?
     fileprivate var settingsAnimationDuration: Double = 0.7
+    fileprivate var currentPitchRangeTracker: PitchRange = BPMService.sharedInstance.currentPitchRange
     
     fileprivate let decksContainerView = UIView()
     
@@ -59,14 +60,18 @@ class HomeController: BaseController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupSubviews()
-        setupDragViewsHandlersAndDelegates()
+        setupDelegates()
+        setupDragViewsHandlers()
         setupBottomButton()
     }
     
-    fileprivate func setupDragViewsHandlersAndDelegates() {
+    fileprivate func setupDelegates() {
+        onAirView.delegate = self
         leftDeckView.delegate = self
         rightDeckView.delegate = self
-        
+    }
+    
+    fileprivate func setupDragViewsHandlers() {
         leftDeckView.openHandler = { [weak self] (tempo) in
             let tapController = TapController(side: .left)
             tapController.tempo = tempo
@@ -176,17 +181,19 @@ class HomeController: BaseController {
     fileprivate var bottomButtonState: ButtonState = .match
     
     override func handleBottomButtonPressed() {
+        guard let leftTempo = BPMService.sharedInstance.leftDeckBPM else { return }
+        guard let rightTempo = BPMService.sharedInstance.rightDeckBPM else { return }
+        let sideOnAir = BPMService.sharedInstance.sideOnAir
+        
         switch bottomButtonState {
         case .match:
-            guard let leftTempo = BPMService.sharedInstance.leftDeckBPM else { return }
-            guard let rightTempo = BPMService.sharedInstance.rightDeckBPM else { return }
-            let sideOnAir = BPMService.sharedInstance.sideOnAir
             let currentPitchRange = BPMService.sharedInstance.currentPitchRange.rawValue
+            var isAdjustmentInRange = false
             
             switch sideOnAir {
             case .left:
                 leftHintView.reset()
-                rightHintView.matchTempo(
+                isAdjustmentInRange = rightHintView.matchTempo(
                     leftTempo: Double(leftTempo),
                     rightTempo: Double(rightTempo),
                     sideOnAir: sideOnAir,
@@ -194,7 +201,7 @@ class HomeController: BaseController {
                 )
             case .right:
                 rightHintView.reset()
-                leftHintView.matchTempo(
+                isAdjustmentInRange = leftHintView.matchTempo(
                     leftTempo: Double(leftTempo),
                     rightTempo: Double(rightTempo),
                     sideOnAir: sideOnAir,
@@ -202,17 +209,66 @@ class HomeController: BaseController {
                 )
             }
             
-            bottomButton.setTitle("DONE", for: .normal)
-            bottomButton.backgroundColor = #colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1)
-            bottomButtonState = .done
+            if isAdjustmentInRange {
+                bottomButton.setTitle("DONE", for: .normal)
+                bottomButton.backgroundColor = #colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1)
+                bottomButtonState = .done
+            }
         case .done:
-            leftHintView.reset()
-            rightHintView.reset()
+            switch sideOnAir {
+            case .left:
+                BPMService.sharedInstance.rightDeckBPM = BPMService.sharedInstance.leftDeckBPM
+                rightDeckView.refresh(value: BPMService.sharedInstance.rightDeckBPM)
+            case .right:
+                BPMService.sharedInstance.leftDeckBPM = BPMService.sharedInstance.rightDeckBPM
+                leftDeckView.refresh(value: BPMService.sharedInstance.leftDeckBPM)
+            }
+            unstageDone()
+        }
+    }
+    
+    fileprivate func unstageDone() {
+        checkMatchButtonShouldBeActive()
+        leftHintView.reset()
+        rightHintView.reset()
+        if bottomButtonState == .done {
             bottomButton.setTitle("MATCH", for: .normal)
             bottomButton.backgroundColor = .appDarkGray
             bottomButtonState = .match
         }
+    }
+    
+    fileprivate func checkMatchButtonShouldBeActive() {
+        let leftTempo = BPMService.sharedInstance.leftDeckBPM
+        let rightTempo = BPMService.sharedInstance.rightDeckBPM
         
+        if leftTempo != nil && rightTempo != nil {
+            var isDifferentTempo = true
+            switch true {
+            case leftTempo! == rightTempo!:
+                isDifferentTempo = false
+            case leftTempo! * 2 == rightTempo!:
+                isDifferentTempo = false
+            case leftTempo! == rightTempo! * 2:
+                isDifferentTempo = false
+            default:
+                break
+            }
+            
+            if isDifferentTempo {
+                bottomButton.isEnabled = true
+            } else {
+                bottomButton.isEnabled = false
+            }
+        } else {
+            bottomButton.isEnabled = false
+        }
+    }
+}
+
+extension HomeController: OnAirViewDelegate {
+    func didChangeSide() {
+        unstageDone()
     }
 }
 
@@ -227,21 +283,15 @@ extension HomeController: BPMDragViewDelegate {
         }
     }
     
-    func didUpdateTempo() {
-        leftHintView.reset() // this repeats several times
-        rightHintView.reset()
-        bottomButton.setTitle("MATCH", for: .normal)
-        bottomButton.backgroundColor = .appDarkGray
-        bottomButtonState = .match
-        
-        let leftTempo = BPMService.sharedInstance.leftDeckBPM
-        let rightTempo = BPMService.sharedInstance.rightDeckBPM
-        
-        if leftTempo != nil && rightTempo != nil {
-            bottomButton.isEnabled = true
-        } else {
-            bottomButton.isEnabled = false
+    func didUpdateTempo(side: Side, value: Int?) {
+        switch side {
+        case .left:
+            BPMService.sharedInstance.leftDeckBPM = value
+        case .right:
+            BPMService.sharedInstance.rightDeckBPM = value
         }
+        
+        unstageDone()
     }
     
     func handleHintViewAnimation(_ hintView: UIView, offset: CGFloat) {
@@ -311,6 +361,12 @@ extension HomeController {
         settingsButtonAnchoredConstraints?.leading?.constant = settingsButton.frame.origin.x
         settingsButtonAnchoredConstraints?.width?.constant   = settingsButton.frame.width
         settingsButtonAnchoredConstraints?.height?.constant  = settingsButton.frame.height
+        
+        let newPitchRange = BPMService.sharedInstance.currentPitchRange
+        if newPitchRange != currentPitchRangeTracker {
+            currentPitchRangeTracker = newPitchRange
+            unstageDone()
+        }
         
         UIView.animate(
             withDuration: settingsAnimationDuration,

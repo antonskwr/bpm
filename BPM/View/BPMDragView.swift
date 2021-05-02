@@ -14,7 +14,7 @@ enum Side {
 
 protocol BPMDragViewDelegate {
     func didDrag(offset: CGFloat, side: Side)
-    func didUpdateTempo()
+    func didUpdateTempo(side: Side, value: Int?)
 }
 
 class BPMDragView: UIView {
@@ -213,7 +213,6 @@ class BPMDragView: UIView {
                     }
                 }
             }
-            
         }
     }
     
@@ -233,23 +232,23 @@ class BPMDragView: UIView {
             self.deckView.layer.cornerRadius = 0.0
         })
     }
+    
+    public func refresh(value: Int?) {
+        var strValue = "-/-"
+        if let value = value {
+            strValue = String(value)
+        }
+        
+        UIView.animate(withDuration: 0.5) {
+            self.bpmLabel.text = strValue
+        }
+    }
 }
 
 extension BPMDragView: TapControllerDelegate {
     func setTempo(_ value: Int?) {
-        switch side {
-        case .left:
-            BPMService.sharedInstance.leftDeckBPM = value
-        case .right:
-            BPMService.sharedInstance.rightDeckBPM = value
-        }
-        
-        if let value = value {
-            bpmLabel.text = String(value)
-        } else {
-            bpmLabel.text = "-/-"
-        }
+        refresh(value: value)
         tempoValue = value
-        delegate?.didUpdateTempo()
+        delegate?.didUpdateTempo(side: side, value: value)
     }
 }

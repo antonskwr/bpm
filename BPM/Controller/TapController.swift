@@ -177,7 +177,7 @@ class TapController: BaseController {
             padding: .init(top: 0, left: 0, bottom: -4, right: 0)
         )
         
-        let cancelButtonTopPadding: CGFloat = ScreenService.shared.isX() ? 10 : 30
+        let cancelButtonTopPadding: CGFloat = ScreenService.shared.isX() ? 10 : 20
         cancelButton.anchor(
             top: view.safeAreaLayoutGuide.topAnchor,
             leading: view.leadingAnchor,

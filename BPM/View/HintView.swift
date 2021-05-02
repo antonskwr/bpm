@@ -58,6 +58,7 @@ extension HintView {
     }
     
     fileprivate func hint(_ string: NSAttributedString) {
+        self.hintLabel.alpha = 0
         UIView.animate(withDuration: 0.3) {
             self.hintLabel.alpha = 1
             self.hintLabel.attributedText = string
@@ -70,7 +71,7 @@ extension HintView {
         }
     }
     
-    public func matchTempo(leftTempo: Double, rightTempo: Double, sideOnAir: Side, pitchRange: Double) {
+    public func matchTempo(leftTempo: Double, rightTempo: Double, sideOnAir: Side, pitchRange: Double) -> Bool {
         
         let tempo: TempoHandler
         switch sideOnAir {
@@ -87,6 +88,7 @@ extension HintView {
             case abs(percentageToMatch) <= pitchRange:
                 print("Regular perc: \(percentageToMatch), sync: \(tempo.sync), master: \(tempo.master)")
                 composeHintText(percentageToMatch)
+                return true
             case tempo.sync < tempo.master:
                 let syncTempoFloor = (tempo.sync * 2) * (1 - pitchRange) // test if accurate
                 let syncTempoCeiling = (tempo.sync * 2) * (1 + pitchRange) // test if accurate
@@ -95,8 +97,10 @@ extension HintView {
                     let percentage = tempo.master / (tempo.sync * 2) - 1
                     percentageToMatch = percentage / 2
                     composeHintText(percentageToMatch)
+                    return true
                 } else {
                     hintOutOfRange()
+                    return false
                 }
             case tempo.sync > tempo.master:
                 let syncTempoFloor = (tempo.sync / 2) * (1 - pitchRange) // test if accurate
@@ -105,14 +109,17 @@ extension HintView {
                 if syncTempoFloor < tempo.master && syncTempoCeiling > tempo.master {
                     percentageToMatch = tempo.master / (tempo.sync / 2) - 1
                     composeHintText(percentageToMatch)
+                    return true
                 } else {
                     hintOutOfRange()
+                    return false
                 }
             default:
-                break
+                return false
             }
         } else {
             print("Already matched")
+            return false
         }
     }
 }

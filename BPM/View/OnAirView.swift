@@ -8,7 +8,13 @@
 
 import UIKit
 
+protocol OnAirViewDelegate {
+    func didChangeSide()
+}
+
 class OnAirView: UIView {
+    
+    public var delegate: OnAirViewDelegate?
     
     let dragThreshold: CGFloat = 60
     let velocityThreshold: CGFloat = 500
@@ -116,11 +122,9 @@ class OnAirView: UIView {
             
             if distance > dragThreshold
                 || (velocity.x > velocityThreshold && BPMService.sharedInstance.sideOnAir == .left) {
-//                snap(toLeft: false)
                 snap(to: .right)
             } else if distance < -dragThreshold
                 || (velocity.x < -velocityThreshold && BPMService.sharedInstance.sideOnAir == .right) {
-//                snap(toLeft: true)
                 snap(to: .left)
             } else {
                 if onAirContainer.transform.tx > -20 && onAirContainer.transform.tx < (rightPosition + 20) {
@@ -152,29 +156,12 @@ class OnAirView: UIView {
                 self.deckColor = (side == .left) ? .appYellow : .appRed
             }, completion: { _ in
                 self.canBeDragged = true
+                self.delegate?.didChangeSide()
             })
         }
     }
     
-//    fileprivate func snap(toLeft: Bool) {
-//        if canBeDragged {
-//            BPMService.sharedInstance.isLeftDeckOnAir = toLeft
-//            canBeDragged = false
-//            UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseOut, animations: {
-//                self.onAirContainer.transform.tx = toLeft ? 0 : (self.frame.width / 2)
-//                self.deckColor = toLeft ? .appYellow : .appRed
-//            }, completion: { _ in
-//                self.canBeDragged = true
-//            })
-//        }
-//    }
-    
     fileprivate func resetPosition() {
         snap(to: BPMService.sharedInstance.sideOnAir)
-//        if BPMService.sharedInstance.isLeftDeckOnAir {
-//            snap(toLeft: true)
-//        } else if !BPMService.sharedInstance.isLeftDeckOnAir {
-//            snap(toLeft: false)
-//        }
     }
 }

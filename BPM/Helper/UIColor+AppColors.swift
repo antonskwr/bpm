@@ -15,4 +15,5 @@ extension UIColor {
     static let appLightGray = #colorLiteral(red: 0.8980392157, green: 0.8862745098, blue: 0.8666666667, alpha: 1)
     static let appWhite = #colorLiteral(red: 1, green: 0.9882352941, blue: 0.9647058824, alpha: 1)
     static let appInactiveWhite = #colorLiteral(red: 0.3890728998, green: 0.4223557898, blue: 0.4444866434, alpha: 1)
+    static let appGreen = #colorLiteral(red: 0.4980392157, green: 0.6980392157, blue: 0.5215686275, alpha: 1)
 }

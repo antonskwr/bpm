@@ -40,6 +40,7 @@ class BaseVC: UIViewController {
 
     init() {
         super.init(nibName: nil, bundle: nil)
+        setupCoverView()
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -51,7 +52,6 @@ class BaseVC: UIViewController {
         layoutStatusBar()
         layoutBottomButton()
         layoutCoverView()
-        setupCoverView()
     }
     
     fileprivate func layoutBottomButton() {

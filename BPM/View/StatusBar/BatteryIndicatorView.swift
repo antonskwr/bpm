@@ -45,7 +45,7 @@ class BatteryIndicatorView: UIView {
                 dy: 0
                 ).size
         )
-        //        let batteryFrame = bounds
+        
         batteryLayer.frame = batteryFrame
         levelLayer.frame = batteryFrame
         

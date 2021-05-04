@@ -14,10 +14,6 @@ protocol TapControllerDelegate {
 
 class TapController: BaseController {
     
-    override var prefersStatusBarHidden: Bool {
-        return true
-    }
-    
     public var delegate: TapControllerDelegate?
     
     public var tempo: Int? {

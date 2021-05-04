@@ -165,4 +165,3 @@ extension SettingsController {
         currentPitchCell?.setHiglighted()
     }
 }
-

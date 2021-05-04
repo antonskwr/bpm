@@ -10,8 +10,6 @@ import UIKit
 
 class StatusBarView: UIView {
     
-    static let shared = StatusBarView()
-    
     var barTintColor: UIColor = .appDarkGray {
         didSet {
             clockView.clockTintColor = barTintColor
@@ -30,7 +28,6 @@ class StatusBarView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: .zero)
-//        backgroundColor = .gray
         setupSubviews()
         setupObservers()
         batteryLevelDidChange()

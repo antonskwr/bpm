@@ -37,16 +37,21 @@ class BaseVC: UIViewController {
         view.alpha = 0
         return view
     }()
-    
+
     init() {
         super.init(nibName: nil, bundle: nil)
-        layoutBottomButton()
-        layoutCoverView()
-        setupCoverView()
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError()
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        layoutStatusBar()
+        layoutBottomButton()
+        layoutCoverView()
+        setupCoverView()
     }
     
     fileprivate func layoutBottomButton() {
@@ -78,5 +83,6 @@ class BaseVC: UIViewController {
     }
     
     @objc func handleBottomButtonPressed() {}
+    func layoutStatusBar() {}
     func setupCoverView() {}
 }

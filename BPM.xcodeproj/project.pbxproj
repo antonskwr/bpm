@@ -7,13 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7F000F932640D7E4003BB895 /* SyncOperationQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F000F922640D7E4003BB895 /* SyncOperationQueue.swift */; };
 		7F14170C20532FC5001F7876 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F14170B20532FC5001F7876 /* AppDelegate.swift */; };
 		7F14170E20532FC5001F7876 /* HomeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F14170D20532FC5001F7876 /* HomeController.swift */; };
 		7F14171320532FC5001F7876 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7F14171220532FC5001F7876 /* Assets.xcassets */; };
 		7F14171620532FC5001F7876 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7F14171420532FC5001F7876 /* LaunchScreen.storyboard */; };
 		7F2CE09A22463D3800A09924 /* BPMDragView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F2CE09922463D3800A09924 /* BPMDragView.swift */; };
 		7F2CE09C22463D8900A09924 /* OnAirView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F2CE09B22463D8900A09924 /* OnAirView.swift */; };
-		7F2CE09E22463EFB00A09924 /* MatchTempo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F2CE09D22463EFB00A09924 /* MatchTempo.swift */; };
 		7F2CE0A02246441800A09924 /* ScreenService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F2CE09F2246441800A09924 /* ScreenService.swift */; };
 		7F2CE0A32246461200A09924 /* UIView+Layout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F2CE0A22246461200A09924 /* UIView+Layout.swift */; };
 		7F3F714D228CBD96008344BF /* HintView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F3F714C228CBD96008344BF /* HintView.swift */; };
@@ -34,6 +34,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		7F000F922640D7E4003BB895 /* SyncOperationQueue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncOperationQueue.swift; sourceTree = "<group>"; };
 		7F14170820532FC5001F7876 /* BPM.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BPM.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7F14170B20532FC5001F7876 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7F14170D20532FC5001F7876 /* HomeController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeController.swift; sourceTree = "<group>"; };
@@ -42,7 +43,6 @@
 		7F14171720532FC5001F7876 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7F2CE09922463D3800A09924 /* BPMDragView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BPMDragView.swift; sourceTree = "<group>"; };
 		7F2CE09B22463D8900A09924 /* OnAirView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnAirView.swift; sourceTree = "<group>"; };
-		7F2CE09D22463EFB00A09924 /* MatchTempo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchTempo.swift; sourceTree = "<group>"; };
 		7F2CE09F2246441800A09924 /* ScreenService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenService.swift; sourceTree = "<group>"; };
 		7F2CE0A22246461200A09924 /* UIView+Layout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Layout.swift"; sourceTree = "<group>"; };
 		7F3F714C228CBD96008344BF /* HintView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HintView.swift; sourceTree = "<group>"; };
@@ -171,8 +171,8 @@
 				7F2CE09F2246441800A09924 /* ScreenService.swift */,
 				7F6F3895205486C0003FB5D0 /* BPMService.swift */,
 				7F4F0DD82056C6A400143495 /* SettingsEnum.swift */,
-				7F2CE09D22463EFB00A09924 /* MatchTempo.swift */,
 				7FC4F272227259F000EE9675 /* BPMCounter.swift */,
+				7F000F922640D7E4003BB895 /* SyncOperationQueue.swift */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -214,7 +214,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 7F14170320532FC5001F7876 /* Build configuration list for PBXProject "Bpm-iphone" */;
+			buildConfigurationList = 7F14170320532FC5001F7876 /* Build configuration list for PBXProject "BPM" */;
 			compatibilityVersion = "Xcode 8.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -251,6 +251,7 @@
 			files = (
 				7F6F35162278AA2100F504A0 /* ClockView.swift in Sources */,
 				7FCE7C93225A82BA003F2ABE /* UILabel+Extension.swift in Sources */,
+				7F000F932640D7E4003BB895 /* SyncOperationQueue.swift in Sources */,
 				7F6F3896205486C0003FB5D0 /* BPMService.swift in Sources */,
 				7F6F35182278AA2100F504A0 /* StatusBarView.swift in Sources */,
 				7F51142C21AB829A00E0F0C8 /* UIColor+AppColors.swift in Sources */,
@@ -260,7 +261,6 @@
 				7F2CE09A22463D3800A09924 /* BPMDragView.swift in Sources */,
 				7F6F389320547C12003FB5D0 /* SettingsController.swift in Sources */,
 				7F6F35172278AA2100F504A0 /* BatteryPercentageView.swift in Sources */,
-				7F2CE09E22463EFB00A09924 /* MatchTempo.swift in Sources */,
 				7F4B78C62054134A00FC856E /* TapController.swift in Sources */,
 				7F58EF2E224C21C900E7A741 /* BaseController.swift in Sources */,
 				7F3F714D228CBD96008344BF /* HintView.swift in Sources */,
@@ -432,7 +432,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		7F14170320532FC5001F7876 /* Build configuration list for PBXProject "Bpm-iphone" */ = {
+		7F14170320532FC5001F7876 /* Build configuration list for PBXProject "BPM" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				7F14171820532FC5001F7876 /* Debug */,

@@ -20,8 +20,7 @@ protocol BPMDragViewDelegate {
 class BPMDragView: UIView {
     
     public var delegate: BPMDragViewDelegate?
-    fileprivate var side: Side
-    fileprivate var deckCanBeDragged = false
+    public var openHandler: ((Int?) -> Void)?
     
     public var hintViewVerticalOffset: CGFloat = 0 {
         didSet {
@@ -35,9 +34,15 @@ class BPMDragView: UIView {
         }
     }
     
+    fileprivate var side: Side
+    fileprivate var deckCanBeDragged = false
     fileprivate var tempoValue: Int?
     
-    public var openHandler: ((Int?) -> Void)?
+    fileprivate let bpmLabelOperationQueue: OperationQueue = {
+        let operationQueue = OperationQueue()
+        operationQueue.maxConcurrentOperationCount = 1
+        return operationQueue
+    }()
     
     fileprivate let deckView: UIView = {
         let view = UIView()
@@ -234,20 +239,56 @@ class BPMDragView: UIView {
     }
     
     public func refresh(value: Int?) {
-        var strValue = "-/-"
-        if let value = value {
-            strValue = String(value)
+        if value == nil {
+            bpmLabel.text = "-/-"
+            return
         }
         
-        UIView.animate(withDuration: 0.5) {
-            self.bpmLabel.text = strValue
+        guard let value = value else {
+            fatalError()
+        }
+        
+        let currentTempoValue = tempoValue ?? (value - 10)
+        tempoValue = value
+        let numUpdates = abs(value - currentTempoValue)
+        let sleepTime = useconds_t(500000 / numUpdates)
+        
+        let operationQueue = SyncOperationQueue()
+        operationQueue.run(
+            startBlock: BlockOperation { [unowned self] in
+                self.bpmLabelOperationQueue.cancelAllOperations()
+            },
+            completionBlock: BlockOperation { [unowned self] in
+                if value > currentTempoValue {
+                    for i in currentTempoValue...value {
+                        self.updateBpmLabelSelector(value: i, sleepTime)
+                    }
+                } else {
+                    for i in (value...currentTempoValue).reversed() {
+                        self.updateBpmLabelSelector(value: i, sleepTime)
+                    }
+                }
+            }
+        )
+    }
+    
+    fileprivate func updateBpmLabelSelector(value: Int, _ sleepTime: useconds_t) {
+        self.bpmLabelOperationQueue.addOperation {
+            DispatchQueue.main.async {
+                self.bpmLabel.text = String(value)
+            }
+            usleep(sleepTime)
         }
     }
 }
 
 extension BPMDragView: TapControllerDelegate {
     func setTempo(_ value: Int?) {
-        refresh(value: value)
+        var bpmText = "-/-"
+        if value != nil {
+            bpmText = String(value!)
+        }
+        bpmLabel.text = bpmText
         tempoValue = value
         delegate?.didUpdateTempo(side: side, value: value)
     }

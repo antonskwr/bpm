@@ -28,9 +28,14 @@ class HomeController: BaseController {
     fileprivate var currentPitchRangeTracker: PitchRange = BPMService.sharedInstance.currentPitchRange
     
     fileprivate let decksContainerView = UIView()
-    
     fileprivate let leftHintView = HintView()
     fileprivate let rightHintView = HintView()
+    
+    fileprivate let statusBar: StatusBarView = {
+        let statusBar = StatusBarView()
+        statusBar.barTintColor = .appDarkGray
+        return statusBar
+    }()
     
     fileprivate let leftDeckView: BPMDragView = {
         let dragView = BPMDragView(side: .left)
@@ -86,6 +91,20 @@ class HomeController: BaseController {
             tapController.modalPresentationStyle = .fullScreen
             self?.present(tapController, animated: true)
         }
+    }
+    
+    override func layoutStatusBar() {
+        view.addSubview(statusBar)
+        
+        statusBar.anchor(
+            top: view.topAnchor,
+            leading: view.leadingAnchor,
+            bottom: nil,
+            trailing: view.trailingAnchor
+        )
+
+        let statusBarHeight: CGFloat = ScreenService.shared.isX() ? 44 : 20
+        statusBar.anchorSize(size: Size(width: nil, height: statusBarHeight))
     }
     
     func setupBottomButton() {

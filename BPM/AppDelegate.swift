@@ -19,29 +19,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window?.makeKeyAndVisible()
         
         enableOptions()
-        setupStatusBar()
         return true
     }
     
     fileprivate func enableOptions() {
         UIDevice.current.isBatteryMonitoringEnabled = true
     }
-    
-    fileprivate func setupStatusBar() {
-        guard let window = window else { return }
-        
-        let statusBar = StatusBarView.shared
-        window.addSubview(statusBar)
-        statusBar.anchor(
-            top: window.topAnchor,
-            leading: window.leadingAnchor,
-            bottom: nil,
-            trailing: window.trailingAnchor
-        )
-        
-        let statusBarHeight: CGFloat = ScreenService.shared.isX() ? 44 : 20
-        statusBar.anchorSize(size: Size(width: nil, height: statusBarHeight))
-        statusBar.barTintColor = .appDarkGray
-    }
 }
-

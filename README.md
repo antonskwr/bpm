@@ -2,4 +2,4 @@
 
 Test description
 
-![alt text](img/iphone_screen_capture_320.gif)
+![alt text](img/iphone_screen_capture.gif)

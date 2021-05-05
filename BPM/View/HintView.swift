@@ -65,8 +65,12 @@ extension HintView {
         }
     }
     
-    public func reset() {
-        UIView.animate(withDuration: 0.3) {
+    public func reset(animated: Bool) {
+        if animated {
+            UIView.animate(withDuration: 0.3) {
+                self.hintLabel.alpha = 0
+            }
+        } else {
             self.hintLabel.alpha = 0
         }
     }

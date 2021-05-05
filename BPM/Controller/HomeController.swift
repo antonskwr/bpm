@@ -211,7 +211,7 @@ class HomeController: BaseController {
             
             switch sideOnAir {
             case .left:
-                leftHintView.reset()
+                leftHintView.reset(animated: true)
                 isAdjustmentInRange = rightHintView.matchTempo(
                     leftTempo: Double(leftTempo),
                     rightTempo: Double(rightTempo),
@@ -219,7 +219,7 @@ class HomeController: BaseController {
                     pitchRange: currentPitchRange
                 )
             case .right:
-                rightHintView.reset()
+                rightHintView.reset(animated: true)
                 isAdjustmentInRange = leftHintView.matchTempo(
                     leftTempo: Double(leftTempo),
                     rightTempo: Double(rightTempo),
@@ -242,14 +242,15 @@ class HomeController: BaseController {
                 BPMService.sharedInstance.leftDeckBPM = BPMService.sharedInstance.rightDeckBPM
                 leftDeckView.refresh(value: BPMService.sharedInstance.leftDeckBPM)
             }
+            
+            leftHintView.reset(animated: true)
+            rightHintView.reset(animated: true)
             unstageDone()
         }
     }
     
     fileprivate func unstageDone() {
         checkMatchButtonShouldBeActive()
-        leftHintView.reset()
-        rightHintView.reset()
         if bottomButtonState == .done {
             bottomButton.setTitle("MATCH", for: .normal)
             bottomButton.backgroundColor = .appDarkGray
@@ -287,6 +288,8 @@ class HomeController: BaseController {
 
 extension HomeController: OnAirViewDelegate {
     func didChangeSide() {
+        leftHintView.reset(animated: true)
+        rightHintView.reset(animated: true)
         unstageDone()
     }
 }
@@ -310,6 +313,8 @@ extension HomeController: BPMDragViewDelegate {
             BPMService.sharedInstance.rightDeckBPM = value
         }
         
+        leftHintView.reset(animated: false)
+        rightHintView.reset(animated: false)
         unstageDone()
     }
     
@@ -384,6 +389,8 @@ extension HomeController {
         let newPitchRange = BPMService.sharedInstance.currentPitchRange
         if newPitchRange != currentPitchRangeTracker {
             currentPitchRangeTracker = newPitchRange
+            leftHintView.reset(animated: false)
+            rightHintView.reset(animated: false)
             unstageDone()
         }
         
